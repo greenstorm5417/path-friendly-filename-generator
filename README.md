@@ -7,7 +7,7 @@
 ![Issues](https://img.shields.io/github/issues/greenstorm5417/path-friendly-filename-generator.svg)
 ![Forks](https://img.shields.io/github/forks/greenstorm5417/path-friendly-filename-generator.svg)
 ![Stars](https://img.shields.io/github/stars/greenstorm5417/path-friendly-filename-generator.svg)
-![Downloads](https://img.shields.io/pypi/dm/path-friendly-filename-generator.svg)
+[![Downloads](https://img.shields.io/pypi/dm/path-friendly-filename-generator.svg)](https://pypi.org/project/path-friendly-filename-generator/)
 
 ## Table of Contents
 
