@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="path_friendly_filename_generator",
-    version="0.1.0",
+    version="0.1.1",
     author="Sammy",
     author_email="dussinsa01@esj.org",
     description="A package to generate path-friendly filenames across different operating systems.",

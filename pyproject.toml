@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "path_friendly_filename_generator"
-version = "0.1.0"
+version = "0.1.1"
 description = "A package to generate path-friendly filenames across different operating systems."
 authors = [{name = "Sammy", email = "dussinsa01@esj.org"}]
 license = {text = "MIT"}
