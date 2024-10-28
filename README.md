@@ -4,57 +4,81 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 ![PyPI Version](https://img.shields.io/pypi/v/path-friendly-filename-generator.svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/path-friendly-filename-generator/python-package.yml?branch=main)
+![Build Status](https://img.shields.io/github/actions/workflow/status/greenstorm5417/path-friendly-filename-generator/python-package.yml?branch=main)
+![Coverage Status](https://img.shields.io/codecov/c/github/greenstorm5417/path-friendly-filename-generator.svg)
+![Issues](https://img.shields.io/github/issues/greenstorm5417/path-friendly-filename-generator.svg)
+![Forks](https://img.shields.io/github/forks/greenstorm5417/path-friendly-filename-generator.svg)
+![Stars](https://img.shields.io/github/stars/greenstorm5417/path-friendly-filename-generator.svg)
+![Downloads](https://img.shields.io/pypi/dm/path-friendly-filename-generator.svg)
 
 ## Table of Contents
 
-- [Introduction](#introduction)
+- [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Quick Start](#quick-start)
+- [Detailed Usage](#detailed-usage)
   - [Making Filenames Safe](#making-filenames-safe)
   - [Validating Filenames](#validating-filenames)
+  - [Handling Reserved Names](#handling-reserved-names)
+  - [Customizing Replacement Characters](#customizing-replacement-characters)
 - [Examples](#examples)
 - [API Reference](#api-reference)
+- [Advanced Configuration](#advanced-configuration)
 - [Testing](#testing)
+  - [Running Unit Tests](#running-unit-tests)
+  - [Using pytest](#using-pytest)
+- [Continuous Integration](#continuous-integration)
 - [Contributing](#contributing)
+  - [Guidelines](#guidelines)
+  - [Code of Conduct](#code-of-conduct)
+- [Changelog](#changelog)
 - [License](#license)
 - [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
-## Introduction
+## Overview
 
-**Path-Friendly Filename Generator** is a Python package designed to ensure that filenames are safe and valid across different operating systems. It automatically removes or replaces invalid characters and trims excessively long filenames based on OS-specific file system rules. This tool is invaluable for developers, system administrators, and anyone dealing with file operations across multiple platforms.
+**Path-Friendly Filename Generator** is a robust Python package crafted to ensure that filenames are safe, valid, and compliant across various operating systems. Whether you're developing cross-platform applications, managing file systems, or automating file operations, this tool streamlines the process by automatically sanitizing filenames, removing or replacing invalid characters, and adhering to OS-specific file system rules. It is an indispensable utility for developers, system administrators, and anyone engaged in file management tasks across multiple platforms.
+
 
 ## Features
 
-- **Cross-Platform Compatibility:** Handles filename rules for Windows, Linux, and macOS.
-- **Invalid Character Replacement:** Automatically replaces or removes characters that are invalid in filenames.
-- **Reserved Name Handling:** Detects and modifies reserved filenames (e.g., `CON`, `PRN` on Windows).
-- **Filename Length Trimming:** Ensures filenames do not exceed the maximum allowed length for the target OS.
-- **Customizable Replacement Characters:** Allows users to specify their own replacement characters.
-- **Validation Utilities:** Provides functions to validate filenames without modifying them.
+- **Cross-Platform Compatibility:** Seamlessly handles filename rules for Windows, Linux, macOS, and other Unix-like systems.
+- **Invalid Character Replacement:** Automatically detects and replaces or removes characters that are invalid in filenames.
+- **Reserved Name Handling:** Identifies and modifies reserved filenames (e.g., `CON`, `PRN` on Windows) to prevent conflicts.
+- **Filename Length Trimming:** Ensures filenames do not exceed the maximum allowed length for the target operating system.
+- **Customizable Replacement Characters:** Offers flexibility to specify custom characters for replacing invalid characters.
+- **Validation Utilities:** Provides comprehensive functions to validate filenames without altering them.
+- **Legacy Windows Support:** Optionally trims filenames to comply with legacy Windows 8.3 filename conventions.
+- **Unicode Support:** Effectively handles filenames with Unicode characters, ensuring broad compatibility.
+- **Extensible Configuration:** Allows advanced users to modify default settings through configuration classes.
 
 ## Installation
 
-You can install the **Path-Friendly Filename Generator** package via [PyPI](https://pypi.org/):
+Installing the **Path-Friendly Filename Generator** is straightforward. You can choose between installing via [PyPI](https://pypi.org/) or directly from the source repository on GitHub.
+
+### Using pip (Recommended)
+
+Install the package using `pip`:
 
 ```bash
 pip install path-friendly-filename-generator
 ```
 
-Alternatively, install it directly from the source repository:
+### From Source
+
+Alternatively, install the package directly from the GitHub repository:
 
 ```bash
-git clone https://github.com/yourusername/path-friendly-filename-generator.git
+git clone https://github.com/greenstorm5417/path-friendly-filename-generator.git
 cd path-friendly-filename-generator
 pip install -e .
 ```
 
-## Usage
+## Quick Start
 
-### Making Filenames Safe
-
-Use the `make_filename_safe` function to sanitize filenames by removing or replacing invalid characters and ensuring they comply with the target OS's rules.
+After installation, you can quickly start using the package to sanitize filenames.
 
 ```python
 from path_friendly_filename_generator import make_filename_safe
@@ -73,9 +97,24 @@ Original: example<filename>:with*invalid|chars?.txt
 Safe: example_filename__with_invalid_chars_.txt
 ```
 
+## Detailed Usage
+
+### Making Filenames Safe
+
+The primary function, `make_filename_safe`, sanitizes filenames by removing or replacing invalid characters and ensuring compliance with the target OS's rules.
+
+```python
+from path_friendly_filename_generator import make_filename_safe
+
+original = 'report<>:"/\|?*.pdf'
+safe = make_filename_safe(original)
+
+print(safe)  # Output: report________.pdf
+```
+
 ### Validating Filenames
 
-Use the `is_valid_filename` function to check if a filename is already valid without modifying it.
+Before sanitizing, you might want to check if a filename is already valid using the `is_valid_filename` function.
 
 ```python
 from path_friendly_filename_generator import is_valid_filename
@@ -86,87 +125,45 @@ is_valid = is_valid_filename(filename)
 print(f"Is '{filename}' a valid filename? {'Yes' if is_valid else 'No'}")
 ```
 
-**Output:**
 
-```
-Is 'valid_filename.txt' a valid filename? Yes
-```
+### Handling Reserved Names
 
-## Examples
-
-### Example 1: Basic Usage
+Certain filenames are reserved by operating systems (e.g., `CON`, `PRN` on Windows). The generator detects these and modifies them to prevent conflicts.
 
 ```python
 from path_friendly_filename_generator import make_filename_safe
 
-# Original filename with invalid characters
-original = 'report<>:"/\|?*.pdf'
-
-# Generate a safe filename
-safe = make_filename_safe(original)
-
-print(safe)  # Output: report________.pdf
-```
-
-### Example 2: Custom Replacement Character
-
-```python
-from path_friendly_filename_generator import make_filename_safe
-
-original = 'data*analysis?.csv'
-
-# Use '-' as the replacement character instead of '_'
-safe = make_filename_safe(original, replacement_char='-')
-
-print(safe)  # Output: data-analysis-.csv
-```
-
-### Example 3: Handling Reserved Names on Windows
-
-```python
-from path_friendly_filename_generator import make_filename_safe
-
-# Reserved name in Windows
 original = 'CON.txt'
-
 safe = make_filename_safe(original)
 
 print(safe)  # Output: CON_reserved.txt
 ```
 
-## API Reference
+### Customizing Replacement Characters
 
-### `make_filename_safe(filename: str, replacement_char: str = '_') -> str`
+You can specify your own replacement character instead of the default underscore (`_`).
 
-Sanitizes the provided filename by removing or replacing invalid characters, handling reserved names, and trimming the filename length based on the operating system's rules.
+```python
+from path_friendly_filename_generator import make_filename_safe
 
-- **Parameters:**
-  - `filename` (`str`): The original filename to be sanitized.
-  - `replacement_char` (`str`, optional): The character to replace invalid characters with. Defaults to `'_'`.
+original = 'data*analysis?.csv'
+safe = make_filename_safe(original, replacement_char='-')
 
-- **Returns:**
-  - `str`: A path-friendly filename that is safe to use across different operating systems.
-
-### `is_valid_filename(filename: str) -> bool`
-
-Checks if the provided filename is valid according to the current operating system's rules without modifying it.
-
-- **Parameters:**
-  - `filename` (`str`): The filename to validate.
-
-- **Returns:**
-  - `bool`: `True` if the filename is valid, `False` otherwise.
+print(safe)  # Output: data-analysis-.csv
+```
 
 ## Testing
 
-To ensure the package functions correctly, a comprehensive test suite is provided using Python's built-in `unittest` framework.
+Ensuring the reliability and stability of the **Path-Friendly Filename Generator** is paramount. A comprehensive test suite has been developed using Python's built-in `unittest` framework and `pytest` for enhanced testing capabilities.
 
-### Running Tests
+### Running Unit Tests
+
+To run the unit tests:
 
 1. **Clone the Repository (if not already done):**
 
    ```bash
-   git clone https://github.com/yourusername/path-friendly-filename-generator.git
+   git clone https://github.com/greenstorm5417/path-friendly-filename-generator.git
    cd path-friendly-filename-generator
    ```
 
@@ -192,79 +189,21 @@ To ensure the package functions correctly, a comprehensive test suite is provide
    **Expected Output:**
 
    ```
-   ...........
+   ......................
    ----------------------------------------------------------------------
-   Ran 11 tests in 0.123s
+   Ran 22 tests in 0.456s
 
    OK
    ```
 
-### Using `pytest` (Optional)
+### License
 
-For a more feature-rich testing experience, you can use `pytest`.
-
-1. **Install `pytest`:**
-
-   ```bash
-   pip install pytest
-   ```
-
-2. **Run Tests with `pytest`:**
-
-   ```bash
-   pytest
-   ```
-
-## Contributing
-
-Contributions are welcome! Whether you're fixing bugs, improving documentation, or suggesting new features, your help is appreciated.
-
-### How to Contribute
-
-1. **Fork the Repository**
-
-2. **Create a New Branch:**
-
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
-
-3. **Make Your Changes**
-
-4. **Run Tests:**
-
-   Ensure all tests pass before submitting.
-
-   ```bash
-   python -m unittest discover -s tests
-   ```
-
-5. **Commit Your Changes:**
-
-   ```bash
-   git commit -m "Add your detailed description of the changes"
-   ```
-
-6. **Push to Your Fork:**
-
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
-
-7. **Create a Pull Request:**
-
-   Go to the original repository and submit a pull request with a detailed description of your changes.
-
-### Code of Conduct
-
-Please adhere to the [Code of Conduct](CODE_OF_CONDUCT.md) when contributing to this project.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software as per the license terms.
 
 ## Contact
 
-**Your Name**  
-Email: [your.email@example.com](mailto:your.email@example.com)  
-GitHub: [yourusername](https://github.com/yourusername)
+**Sammy**  
+Email: [dussinsa01@esj.org](mailto:dussinsa01@esj.org)  
+GitHub: [greenstorm5417](https://github.com/greenstorm5417)
+
+For any inquiries, feature requests, or support, feel free to reach out via email or open an issue on the [GitHub repository](https://github.com/greenstorm5417/path-friendly-filename-generator).
