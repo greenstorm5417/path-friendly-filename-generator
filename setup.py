@@ -11,7 +11,7 @@ setup(
     description="A package to generate path-friendly filenames across different operating systems.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/path_friendly_filename_generator",
+    url="https://github.com/greenstorm5417/path_friendly_filename_generator",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
