@@ -4,7 +4,6 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 ![PyPI Version](https://img.shields.io/pypi/v/path-friendly-filename-generator.svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/greenstorm5417/path-friendly-filename-generator/python-package.yml?branch=main)
 ![Issues](https://img.shields.io/github/issues/greenstorm5417/path-friendly-filename-generator.svg)
 ![Forks](https://img.shields.io/github/forks/greenstorm5417/path-friendly-filename-generator.svg)
 ![Stars](https://img.shields.io/github/stars/greenstorm5417/path-friendly-filename-generator.svg)
