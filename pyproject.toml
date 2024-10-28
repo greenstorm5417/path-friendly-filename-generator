@@ -18,9 +18,9 @@ classifiers = [
 keywords = ["filename", "generator", "path-friendly", "cross-platform"]
 
 [project.urls]
-"Homepage" = "https://github.com/greenstorm5417/path_friendly_filename_generator"  
-"Documentation" = "https://github.com/greenstorm5417/path_friendly_filename_generator"
-"Source Code" = "https://github.com/greenstorm5417/path_friendly_filename_generator"
+"Homepage" = "https://github.com/greenstorm5417/path-friendly-filename-generator"  
+"Documentation" = "https://github.com/greenstorm5417/path-friendly-filename-generator"
+"Source Code" = "https://github.com/greenstorm5417/path-friendly-filename-generator"
 
 [project.optional-dependencies]
 test = ["unittest"]
